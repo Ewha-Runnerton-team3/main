@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"npm run start:client\" \"npm run start:server\"",
-    "start:client": "cd frontend && npm run",
+    "start:client": "cd frontend && npm start",
     "start:server": "cd backend && npm start"
   },
   "author": "",
@@ -15,6 +15,7 @@
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^9.1.0",
+    "cors": "^2.8.5",
     "nodemon": "^3.1.9",
     "vite": "^6.0.5"
   }
