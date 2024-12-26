@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext'; // useAuth 훅 임포트
+import { useAuth } from '../../context/AuthContext';
 import Header from "../../components/layout/Header"
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from '../../constants/paths';
-
 import { postLogin } from "../../api/LoginApiService";
 
 
 
 const LoginPage = () => {
-    // useAuth 훅을 사용하여 전역변수수 setUserId 가져오기
-    const { setUserId } = useAuth();
+    // useAuth 훅을 사용하여 전역변수 setUserId 가져오기
+    const { setUserId, setNickname } = useAuth();
 
     const [id, setId] = useState<string>("");
     const [pwd, setPwd] = useState<string>("");
@@ -32,7 +31,10 @@ const LoginPage = () => {
             localStorage.setItem('user', JSON.stringify(user));
 
             // 로그인 성공 후 전역 AuthContext에 userId 저장
-            setUserId(user.id);
+            setUserId(user.loginId);
+
+            // 닉네임은 백엔드에서 자동으로 지정해서 주기로 함.
+            setNickname(user.nickname);
             
             // 로그인 성공 후 메인홈 페이지로 리디렉션
             navigate(PATHS.HOME);
@@ -40,15 +42,21 @@ const LoginPage = () => {
 
         } catch (err) {
             // 에러 발생 시 처리
-            console.error('로그인 실패:', err);
+            alert('로그인 실패\n' + err);
+            console.error('로그인 실패: ', err);
         }
     };
     
     const navigate = useNavigate();
     const handleKakaoLogin = () => {
-        // 이동 (리디렉션)
-        navigate("/auth/kakao");
+        // 프론트 URL + 카카오 로그인 페이지로 이동 (리디렉션)
+        // http://localhost:5173/auth/kakao
+        //navigate(`/auth/kakao`);
         
+        // 백엔드드 URL + 카카오 로그인 페이지로 이동 (리디렉션)
+        // http://localhost:3000/auth/kakao
+        window.location.href = PATHS.KAKAO_REDIRECT;
+
         // 로그인 성공 후 userId를 받기?
         //setUserId();
     };

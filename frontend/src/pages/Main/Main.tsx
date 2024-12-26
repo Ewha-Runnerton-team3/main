@@ -25,7 +25,7 @@ const Main = () => {
             <div className="py-[100px] space-y-10">
               <img className="w-[400px] rounded-2xl" src={refrigeratorImage} alt="냉장고 음식" />
               <div className="text-goldbrown-10 font-bold text-[16px] bg-yellow-80 rounded-lg text-center py-2 cursor-pointer hover:text-yellow-0"
-                   onClick={() => navigate(PATHS.FAVORITE)}>
+                   onClick={() => navigate(PATHS.RECOMMEND)}>
                 레시피 추천받으러 가기
               </div>
             </div>
