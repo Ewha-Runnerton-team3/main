@@ -9,6 +9,7 @@ import Favorite from "./pages/Favorite/Favorite";
 import Recommend from "./pages/Recommend/Recommend";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
+import KakaoAuth from "./pages/Login/KakaoAuth";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path={PATHS.RECOMMEND} element={<Recommend />} />
           <Route path={PATHS.LOGIN} element={<Login />} />
           <Route path={PATHS.SIGNUP} element={<Signup />} />
+          <Route path={PATHS.KAKAO_CALLBACK} element={<KakaoAuth />} />
         </Routes>
       </Router>
     </AuthProvider>

@@ -6,6 +6,8 @@ import MenuBar from "../../components/layout/MenuBar"
 import { getRecipe } from "../../api/RecipeHistoryApiService";
 import { Recipe } from "../../api/RecipeApiType.ts";
 
+import dummyRecipes from "../../constants/dummyRecipes.ts"
+
 const History = () => {
     // 로그인 정보 가져오기
     const { userId } = useAuth();
@@ -56,6 +58,11 @@ const History = () => {
     useEffect(() => {
       // API 호출
       fetchData();
+      
+      // 만약 totalItems가 비어있으면 dummyRecipes로 설정
+      if (totalItems.length === 0) {
+        setTotalItems(dummyRecipes);
+      }
 
       // 전체 페이지 수 계산
       setTotalPages(Math.ceil(totalItems.length / itemsPerPage));
@@ -88,7 +95,11 @@ const History = () => {
           <div className="p-10 flex space-x-10">
             {currentItems.map((item, index) => (
               <div key={index} className="w-[300px] h-[300px] rounded-lg bg-yellow-30">
-                <div className="h-[230px]"></div>
+                <div className="flex items-center justify-center px-10 pt-10 pb-2">
+                  <div className="flex items-center p-5 font-semibold h-[170px] w-[200px] bg-yellow-0 rounded-lg">
+                    이미지 준비중
+                  </div>
+                </div>
                 <p className="flex font-semibold text-lg p-5">
                   {/* 레시피 이름 출력 */}
                   {item.name}

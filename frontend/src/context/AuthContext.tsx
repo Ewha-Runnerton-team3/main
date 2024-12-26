@@ -4,6 +4,8 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 interface AuthContextType {
   userId: number | null;
   setUserId: (userId: number | null) => void;
+  nickname: string | null;
+  setNickname: (nickname: string | null) => void;
 }
 
 // 초기값 설정
@@ -12,9 +14,10 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Context Provider 컴포넌트
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [userId, setUserId] = useState<number | null>(null);
+  const [nickname, setNickname] = useState<string | null>(null);
 
   return (
-    <AuthContext.Provider value={{ userId, setUserId }}>
+    <AuthContext.Provider value={{ userId, setUserId, nickname, setNickname }}>
       {children}
     </AuthContext.Provider>
   );
