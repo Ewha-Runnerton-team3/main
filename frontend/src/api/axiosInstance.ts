@@ -8,6 +8,7 @@ export const BASE_URL = "http://localhost:3000" // 백엔드 서버를 배포하
 /// Axios 인스턴스 생성
 export const AxiosInstance = axios.create({
   baseURL: BASE_URL,
+  withCredentials: true, // 중요: 쿠키 전송을 위해 필요
   timeout: 10000, // 10초
   headers: {
     "Content-Type": "application/json", // JSON 형식
