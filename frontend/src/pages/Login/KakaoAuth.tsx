@@ -21,6 +21,7 @@ const KakaoAuth = () => {
       await AxiosInstance({
         method: "GET",
         url: `${PATHS.KAKAO_REDIRECT}/?code=${code}`,
+        data: { code },
         headers: {
           "Content-Type": "application/json;charset=utf-8", //json형태로 데이터를 보내겠다는뜻
           "Access-Control-Allow-Origin": "*", //이건 cors 에러때문에 넣어둔것. 당신의 프로젝트에 맞게 지워도됨
@@ -43,7 +44,7 @@ const KakaoAuth = () => {
       });
     };
     kakaoLogin();
-  }, []);
+  }, [code, navigate, setUserId, setNickname]);
 
   return (
     <div className="bg-yellow-50 h-screen flex justify-center py-10">
