@@ -32,9 +32,9 @@ const KakaoAuth = () => {
         console.log(answer);
 
 
-        //계속 쓸 정보들( ex: 이름) 등은 localStorage에 저장해두자
-        localStorage.setItem('token', answer.token);
-        localStorage.setItem('user', JSON.stringify(answer.user));
+        //계속 쓸 정보들( ex: 이름) 등은 sessionStorage에 저장해두자
+        sessionStorage.setItem('token', answer.token);
+        sessionStorage.setItem('user', JSON.stringify(answer.user));
         setUserId(answer.user.loginId);
         setNickname(answer.user.nickname);
 
