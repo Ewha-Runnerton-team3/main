@@ -16,10 +16,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [userId, setUserId] = useState<number | null>(null);
   const [nickname, setNickname] = useState<string | null>(null);
 
+  // 페이지 이동해도 토큰 유지하는 코드
+  // 컴포넌트가 마운트 될 때 sessionStorage에서 값 가져오기
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
-
+    const storedToken = sessionStorage.getItem('token');
+    const storedUser = sessionStorage.getItem('user');
+    
     if (storedToken && storedUser) {
       const user = JSON.parse(storedUser);
       setUserId(user.loginId);

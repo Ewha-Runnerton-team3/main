@@ -26,9 +26,11 @@ const LoginPage = () => {
             // 로그인 성공 시 처리
             const { user, token } = loginData;
 
-            // 로컬 스토리지에 로그인 정보 저장
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
+            // 세션 스토리지에 로그인 정보 저장
+            // 로컬 스토리지에 저장하면 창을 닫았다가 다시 켜도 유지되어서 보안 문제 이슈가 있음
+            // 그래서 로그인 정보는 세션 스토리지에 저장
+            sessionStorage.setItem('token', token);
+            sessionStorage.setItem('user', JSON.stringify(user));
 
             // 로그인 성공 후 전역 AuthContext에 userId 저장
             setUserId(user.loginId);

@@ -17,9 +17,9 @@ const MenuBar = () => {
 
           // 로그아웃 성공 후 처리
 
-          // 로컬 스토리지에 로그인 정보 삭제
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+          // 세션 스토리지에서 로그인 정보 삭제
+          sessionStorage.removeItem('token');
+          sessionStorage.removeItem('user');
 
           // 전역 상태에서 userId 초기화
           setUserId(null);
