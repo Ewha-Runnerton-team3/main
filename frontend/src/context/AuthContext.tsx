@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
 // 타입 정의
 interface AuthContextType {
@@ -15,6 +15,17 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [userId, setUserId] = useState<number | null>(null);
   const [nickname, setNickname] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    const storedUser = localStorage.getItem('user');
+
+    if (storedToken && storedUser) {
+      const user = JSON.parse(storedUser);
+      setUserId(user.loginId);
+      setNickname(user.nickname);
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ userId, setUserId, nickname, setNickname }}>

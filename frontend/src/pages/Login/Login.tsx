@@ -35,10 +35,10 @@ const LoginPage = () => {
 
             // 닉네임은 백엔드에서 자동으로 지정해서 주기로 함.
             setNickname(user.nickname);
-            
+            console.log(user.nickname);
             // 로그인 성공 후 메인홈 페이지로 리디렉션
             navigate(PATHS.HOME);
-
+            console.log(user.nickname);
 
         } catch (err) {
             // 에러 발생 시 처리
