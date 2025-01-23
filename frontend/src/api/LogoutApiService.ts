@@ -40,7 +40,7 @@ export const postLogout = async (
 
 export const postKakaoLogout = async () => {
   try {
-    const response = await AxiosInstance.post(`${PATHS.KAKAO_LOGOUT}`, 
+    const response = await AxiosInstance.post(`${BASE_URL}${PATHS.KAKAO_LOGOUT}`, 
       // Request Data 전달
       {
       },
