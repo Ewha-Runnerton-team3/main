@@ -1,7 +1,7 @@
 import React from 'react';
 import { PATHS } from '../../constants/paths';
 import { useAuth } from '../../context/AuthContext';  // AuthContext에서 userId와 setUserId 가져오기
-import { postLogout } from "../../api/LogoutApiService";
+import { postLogout, postKakaoLogout } from "../../api/LogoutApiService";
 
 const MenuBar = () => {
   const { userId, setUserId, nickname, setNickname } = useAuth();  // userId 값을 AuthContext에서 가져옴
@@ -9,11 +9,18 @@ const MenuBar = () => {
   const handleLogout = async () => {
       // API 요청
       try {
+          // 일반 로그아웃 API 요청
           const logoutData = await postLogout(
             {},
             {}
           );
+
+          // 카카오 로그아웃 API 요청
+          const kakaoLogoutData = await postKakaoLogout();
           
+          // 카카오 로그아웃 잘 되었는 지 확인
+          console.log(kakaoLogoutData);
+
 
           // 로그아웃 성공 후 처리
 
