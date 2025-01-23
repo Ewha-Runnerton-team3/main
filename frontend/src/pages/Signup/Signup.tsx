@@ -42,7 +42,7 @@ const SignupPage = () => {
                         <p>아이디</p>
                         <input
                             className="border border-goldbrown-50 rounded-lg py-1 px-2 w-[250px]"
-                            type="id"
+                            type="text"
                             value={id}
                             onChange={(e) => setId(e.target.value)}
                             placeholder="아이디를 입력해주세요"
@@ -53,7 +53,7 @@ const SignupPage = () => {
                         <p>비밀번호</p>
                         <input
                             className="border border-goldbrown-50 rounded-lg py-1 px-2 w-[250px]"
-                            type="pwd"
+                            type="password"
                             value={pwd}
                             onChange={(e) => setPwd(e.target.value)}
                             placeholder="비밀번호를 입력해주세요"
@@ -64,7 +64,7 @@ const SignupPage = () => {
                         <p>닉네임</p>
                         <input
                             className="border border-goldbrown-50 rounded-lg py-1 px-2 w-[250px]"
-                            type="nickname"
+                            type="text"
                             value={nickname}
                             onChange={(e) => setNickname(e.target.value)}
                             placeholder="닉네임을 입력해주세요"
