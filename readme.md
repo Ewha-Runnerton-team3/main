@@ -1,19 +1,24 @@
 # 👩‍🍳당신을 위한 레시피  "쿡핏 : COOK FIT"
 <img src="./logo.png"/>
 
-## 프로젝트 소개
+## 💡 프로젝트 소개
 
-쿡핏: COOK FIT은 사용자가 입력한 재료를 기반으로 적합한 메뉴를 추천하고, 레시피까지 자동으로 생성해 주는 맞춤형 레시피 플랫폼입니다.
-이 서비스는 레시피 히스토리 관리와 즐겨찾기 저장 기능을 통해 사용자의 취향과 요리를 효율적으로 관리할 수 있도록 설계되었습니다.
-최적화된 추천 알고리즘과 직관적인 사용자 경험을 바탕으로, 간편하면서도 개인화된 요리 여정을 제공합니다.
+COOK FIT은 사용자가 입력한 재료를 분석하여 최적의 메뉴를 추천하고, 웹 크롤링 및 LLM 정제를 통해 구조화된 레시피 정보를 제공하는 맞춤형 레시피 플랫폼입니다.
+개인 맞춤형 요리 경험을 제공하는 COOK FIT과 함께 더 스마트한 요리 생활을 즐겨보세요!🍽️
+
+<br>
 
 ## ✨ 기능
-✅ ChatGPT-API를 사용한 사용자 맞춤형 레시피 추천 <br>
-✅ 레시피 저장 <br>
-✅ 데이터 분석 기반 재료 기반 메뉴 추천 알고리즘
+✅ 카카오 로그인 API를 활용한 간편 로그인 <br>
+✅ 사용자가 입력한 재료를 TF-IDF + 코사인 유사도를 활용해 벡터화하고, 가장 유사한 상위 3개 메뉴를 추천 <br>
+✅ 추천된 메뉴의 레시피를 웹 크롤링 및 LLM(Gemma2-9B-IT) 정제를 통해 구조화된 정보로 제공 <br>
+
+<br>
 
 ## 🏆 결과
 코드잇 이화 러너톤 '1등' 
+
+<br>
 
 ## 👥Runner Team3
 <table border="1">
@@ -24,34 +29,40 @@
   </tr>
   <tr>
     <td>박민서</td>
-    <td>BackEnd</td>
+    <td>기획, BackEnd</td>
     <td>로그인, 로그아웃, 이미지 검색</td>
   </tr>
   <tr>
     <td>박인애</td>
-    <td>FrontEnd</td>
+    <td>기획, FrontEnd</td>
     <td>프론트엔드 개발</td>
   </tr>
   <tr>
     <td>유혜진</td>
-    <td>BackEnd</td>
-    <td>레시피 생성 및 저장, 히스토리 관리</td>
+    <td>기획, BackEnd, AI</td>
+    <td>메뉴 추천 및 레시피 제공 기능</td>
   </tr>
   <tr>
     <td>이다빈</td>
-    <td>DataAnalysis</td>
-    <td>데이터 분석 및 백엔드 연결</td>
+    <td>기획, DataAnalysis</td>
+    <td>데이터 수집</td>
   </tr>
   <tr>
     <td>홍연재</td>
-    <td>DataAnalysis</td>
-    <td>추천 알고리즘 구현</td>
+    <td>기획, DataAnalysis</td>
+    <td>데이터 수집</td>
+  </tr>
+  <tr>
+    <td>박도혜</td>
+    <td>디자이너</td>
+    <td>UI/UX</td></td>
   </tr>
 </table>
 
+<br>
 
 ## 🛠️Teck Stack
-- 개발 기간 : 2024.12.21 ~ 2024.12.23
+- 개발 기간 : 2024.12 ~ 2024.3
 
 - stack <br> 
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white)
@@ -60,4 +71,4 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=TypeScript&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=Python&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=Pandas&logoColor=white)
-![ChatGPT](https://img.shields.io/badge/ChatGPT-412991?style=for-the-badge&logo=openai&logoColor=white)
+
