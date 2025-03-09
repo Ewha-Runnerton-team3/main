@@ -1,14 +1,32 @@
-import { DataTypes } from 'sequelize';
+import { DataTypes } from "sequelize";
 
 const RecipeModel = (sequelize) => {
     const Recipe = sequelize.define(
-        'Recipe',
+        "Recipe",
         {
-            name: {
+            id: { 
+                type: DataTypes.BIGINT.UNSIGNED, 
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+            },
+            title: { 
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            totalTime: {
+            thumbnail: {
+                type: DataTypes.STRING, 
+                allowNull: true,
+            },
+            finalImage: {
+                type: DataTypes.STRING, 
+                allowNull: true,
+            },
+            servingSize: { 
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            cookingTime: { 
                 type: DataTypes.STRING,
                 allowNull: false,
             },
@@ -16,26 +34,40 @@ const RecipeModel = (sequelize) => {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            difficultyScore: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
             ingredients: {
-                type: DataTypes.TEXT, // JSON 형식으로 저장
+                type: DataTypes.TEXT,
                 allowNull: false,
+                get() {
+                    return JSON.parse(this.getDataValue("ingredients") || "[]");
+                },
+                set(value) {
+                    this.setDataValue("ingredients", JSON.stringify(value));
+                },
             },
             steps: {
-                type: DataTypes.TEXT, // JSON 형식으로 저장
+                type: DataTypes.TEXT, 
                 allowNull: false,
+                get() {
+                    return JSON.parse(this.getDataValue("steps") || "[]");
+                },
+                set(value) {
+                    this.setDataValue("steps", JSON.stringify(value));
+                },
             },
             userId: {
-                type: DataTypes.BIGINT.UNSIGNED, // 사용자와 연결될 외래 키
+                type: DataTypes.BIGINT.UNSIGNED,
                 allowNull: false,
+                references: {
+                    model: "users",
+                    key: "id",
+                },
+                onDelete: "CASCADE",
             },
         },
         {
-            tableName: 'recipes', // 테이블 이름 명시
-            timestamps: true, // createdAt, updatedAt 자동 생성
+            tableName: "recipes",
+            timestamps: true,
+            underscored: true, 
         }
     );
 

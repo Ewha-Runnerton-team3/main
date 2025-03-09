@@ -17,8 +17,8 @@ const SavedRecipe = SavedRecipeModel(sequelize);
 User.hasMany(Recipe, { foreignKey: 'userId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 Recipe.belongsTo(User, { foreignKey: 'userId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
 
-SavedRecipe.belongsTo(Recipe, { foreignKey: 'recipeId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
-Recipe.hasMany(SavedRecipe, { foreignKey: 'recipeId', onDelete: 'CASCADE', onUpdate: 'CASCADE' });
+SavedRecipe.belongsTo(Recipe, { foreignKey: "recipeId", as: "recipe", onDelete: "CASCADE", onUpdate: "CASCADE" });
+Recipe.hasMany(SavedRecipe, { foreignKey: "recipeId", as: "savedRecipes", onDelete: "CASCADE", onUpdate: "CASCADE" });
 
 
 const db = {
