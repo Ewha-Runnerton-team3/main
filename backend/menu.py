@@ -1,60 +1,80 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS  
 import pandas as pd
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
+from rank_bm25 import BM25Okapi
+import os
 
 app = Flask(__name__)
-CORS(app)  
+CORS(app)
 
 # CSV 데이터 로드
 file_path = "./utils/TB_RECIPE_SEARCH_241226.csv"
 df = pd.read_csv(file_path, encoding="utf-8")
 
-# 필요한 컬럼만 추출 (레시피 제목, 재료)
-df = df[['RCP_TTL', 'CKG_MTRL_CN']].dropna()
+# 필요한 컬럼만 추출 (레시피 제목, 재료, 카테고리, 난이도, 조리시간 포함)
+df = df[['RCP_TTL', 'CKG_MTRL_CN', 'CKG_KND_ACTO_NM', 'CKG_DODF_NM', 'CKG_TIME_NM']].dropna()
 
 # 텍스트 정제 (불필요한 문자 제거)
 df['CKG_MTRL_CN'] = df['CKG_MTRL_CN'].str.replace(r'\[재료\]|\d+|\|', '', regex=True)
 
-# TF-IDF 벡터 변환기 생성
-vectorizer = TfidfVectorizer()
-ingredient_vectors = vectorizer.fit_transform(df["CKG_MTRL_CN"])  # 모든 레시피의 재료를 벡터화
+def find_top_recipes(user_ingredients, category=None, difficulty=None, cooking_time=None, top_n=3):
+    #사용자가 입력한 재료 리스트와 필터링 조건(카테고리, 난이도, 조리시간)에 맞는 상위 N개 레시피 추천 (BM25 적용)
+    if not user_ingredients:
+        return []
 
-def find_top_recipes(user_ingredients, top_n=3):
-    """사용자가 입력한 재료 리스트와 가장 유사한 상위 N개 레시피를 찾음"""
-    user_query = " ".join(user_ingredients)  # 사용자 입력을 문자열로 변환
-    user_vector = vectorizer.transform([user_query])  # 사용자 입력을 벡터로 변환
+    filtered_df = df.copy()
 
-    # 코사인 유사도 계산
-    similarities = cosine_similarity(user_vector, ingredient_vectors).flatten()
+    if category:
+        filtered_df = filtered_df[filtered_df["CKG_KND_ACTO_NM"] == category]
+    if difficulty:
+        filtered_df = filtered_df[filtered_df["CKG_DODF_NM"] == difficulty]
+    if cooking_time:
+        filtered_df = filtered_df[filtered_df["CKG_TIME_NM"] == cooking_time]
 
-    # 상위 top 3개 인덱스 가져오기
-    top_indices = similarities.argsort()[-top_n:][::-1]  # 유사도가 높은 순으로 정렬
+    if filtered_df.empty:
+        return []
 
-    # 상위 추천 레시피 리스트 반환
-    top_recipes = []
-    for idx in top_indices:
-        top_recipes.append({
-            "recipe_title": df.iloc[idx]["RCP_TTL"],
-            "ingredients": df.iloc[idx]["CKG_MTRL_CN"]
-        })
+    # 레시피 재료를 토큰화
+    tokenized_ingredients = [ingredients.split() for ingredients in filtered_df["CKG_MTRL_CN"]]
 
-    return top_recipes
+    # BM25 모델 생성 (필터링된 데이터셋 기준)
+    bm25 = BM25Okapi(tokenized_ingredients)
 
-# Flask API 엔드포인트 설정
+    # 사용자 입력을 토큰화
+    user_tokenized_query = user_ingredients.split()
+
+    # BM25 점수 계산
+    scores = bm25.get_scores(user_tokenized_query)
+
+    # 상위 top_n개 레시피 찾기
+    top_indices = scores.argsort()[-top_n:][::-1]
+    return [
+        {
+            "recipe_title": filtered_df.iloc[idx]["RCP_TTL"],
+            "ingredients": filtered_df.iloc[idx]["CKG_MTRL_CN"]
+        }
+        for idx in top_indices
+    ]
+
 @app.route("/recommend", methods=["POST"])
 def recommend():
-    """사용자가 입력한 재료 리스트를 기반으로 가장 유사한 상위 3개 레시피 추천"""
+    """사용자가 입력한 재료 리스트 및 필터링 조건에 맞는 상위 3개 레시피 추천"""
     data = request.get_json()
     user_ingredients = data.get("ingredients", [])
+    category = data.get("category", None)  
+    difficulty = data.get("difficulty", None) 
+    cooking_time = data.get("cooking_time", None)  
 
     if not user_ingredients:
         return jsonify({"error": "재료 목록이 비어 있습니다."}), 400
 
-    top_recipes = find_top_recipes(user_ingredients, top_n=3)
+    top_recipes = find_top_recipes(" ".join(user_ingredients), category, difficulty, cooking_time, top_n=3)
+
+    if not top_recipes:
+        return jsonify({"message": "해당 조건에 맞는 레시피가 없습니다."}), 200
+
     return jsonify(top_recipes)
 
-# Flask 서버 실행
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    debug_mode = os.getenv("FLASK_DEBUG", "False").lower() == "true"
+    app.run(host="0.0.0.0", port=5000, debug=debug_mode)
